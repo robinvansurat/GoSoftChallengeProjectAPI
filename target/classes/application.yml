@@ -1,0 +1,19 @@
+server:
+  port: 8080
+  servlet:
+    contextPath: /api
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+  datasource:
+    url: jdbc:mariadb://1.2.3.11:3306/springboot_demo
+    username: root
+    password: robin11van
+
+  security:
+    user:
+      name: john
+      password: P@ssw0rd
