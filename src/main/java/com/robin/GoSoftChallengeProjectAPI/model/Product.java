@@ -40,6 +40,9 @@ public class Product {
         this.price = price;
         this.status = status;
         this.images = images;
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        this.create_at = timestamp;
+        this.update_at = timestamp;
     }
 
 
@@ -85,5 +88,13 @@ public class Product {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public Timestamp getUpdate_at() {
+        return update_at;
+    }
+
+    public void setUpdate_at(Timestamp update_at) {
+        this.update_at = update_at;
     }
 }
