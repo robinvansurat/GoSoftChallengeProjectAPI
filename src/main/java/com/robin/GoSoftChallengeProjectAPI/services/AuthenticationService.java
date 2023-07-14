@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +39,8 @@ public class AuthenticationService {
         .role(request.getRole())
         .build();
     var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken((UserDetails) user);
-    var refreshToken = jwtService.generateRefreshToken((UserDetails) user);
+    var jwtToken = jwtService.generateToken(user);
+    var refreshToken = jwtService.generateRefreshToken(user);
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
@@ -58,8 +57,10 @@ public class AuthenticationService {
     );
     var user = repository.findByEmail(request.getEmail())
         .orElseThrow();
-    var jwtToken = jwtService.generateToken((UserDetails) user);
-    var refreshToken = jwtService.generateRefreshToken((UserDetails) user);
+    var jwtToken = jwtService.generateToken(user);
+    var refreshToken = jwtService.generateRefreshToken(user);
+    System.out.println("jwtToken =>"+jwtToken);
+    System.out.println("refreshToken =>"+refreshToken);
     revokeAllUserTokens(user);
     saveUserToken(user, jwtToken);
     return AuthenticationResponse.builder()
@@ -105,8 +106,8 @@ public class AuthenticationService {
     if (userEmail != null) {
       var user = this.repository.findByEmail(userEmail)
               .orElseThrow();
-      if (jwtService.isTokenValid(refreshToken, (UserDetails) user)) {
-        var accessToken = jwtService.generateToken((UserDetails) user);
+      if (jwtService.isTokenValid(refreshToken,  user)) {
+        var accessToken = jwtService.generateToken( user);
         revokeAllUserTokens(user);
         saveUserToken(user, accessToken);
         var authResponse = AuthenticationResponse.builder()

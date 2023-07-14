@@ -14,14 +14,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "User")
-public class User {
+@Table(name = "Users")
+public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Integer id;
@@ -44,6 +45,11 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
     }
 
 
