@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://1.2.3.11:54321/GoSoftChallengeProjectAPI
+    url: jdbc:postgresql://1.2.3.11:54321/jwt_security
     username: root
     password: robin11van
     driver-class-name: org.postgresql.Driver
