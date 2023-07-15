@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -61,53 +60,4 @@ public class ProductController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @PutMapping(path = "/products/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") long id, @RequestBody Product product) {
-        Optional<Product> productData = productRepository.findById(id);
-        if (productData.isPresent()) {
-            Product _product = productData.get();
-            _product.setName(product.getName());
-            _product.setDetail(product.getDetail());
-            _product.setImages(product.getImages());
-            _product.setPrice(product.getPrice());
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            _product.setUpdate_at(timestamp);
-            return new ResponseEntity<>(productRepository.save(_product), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-    @DeleteMapping("/products/{id}")
-    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable("id") long id) {
-        try {
-            productRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/products")
-    public ResponseEntity<HttpStatus> deleteAllTutorials() {
-        try {
-            productRepository.deleteAll();
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-//    @GetMapping("/products/status")
-//    public ResponseEntity<List<Tutorial>> findByPublished() {
-//        try {
-//            List<Product> product = productRepository.findByStatus(true);
-//            if (product.isEmpty()) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity<>(product, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 }
